@@ -35,7 +35,7 @@ class QuranDetailScreen extends StatelessWidget {
             Text('Diturunkan Di: ${surah.type}'),
             Text('Urutan Surat Ke : ${surah.urut}'),
             Text('Nomor: ${surah.nomor}'),
-            Text('Ayat: ${surah.rukuk}'),
+            Text('Rukuk: ${surah.rukuk}'),
             const SizedBox(height: 16),
             Text(
               'Keterangan:',
