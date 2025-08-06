@@ -1,5 +1,7 @@
+import 'package:dandi_flutter/pages/auth/login_screen.dart';
+import 'package:dandi_flutter/pages/home_screen.dart';
 import 'package:dandi_flutter/pages/posts/list_post_screen.dart';
-import 'package:dandi_flutter/pages/quran/quran_screen.dart';
+import 'package:dandi_flutter/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,13 +14,44 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('Surat Al Quran'),
-          backgroundColor: Colors.green),
-      
-        body: QuranListScreen(),
-        
-        ),
+      title: 'Auth Example',
+      home: AuthCheck(), 
+    );
+  }
+}
+
+class AuthCheck extends StatefulWidget {
+  const AuthCheck({super.key});
+
+  @override
+  State<AuthCheck> createState() => _AuthCheckState();
+}
+
+class _AuthCheckState extends State<AuthCheck> {
+  final AuthService _authService = AuthService();
+  late Future<bool> _isLoggedIn;
+
+  @override
+  void initState() {
+    super.initState();
+    _isLoggedIn = _authService.isLoggedIn();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: _isLoggedIn,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        } else if (snapshot.hasData && snapshot.data == true) {
+          return HomeScreen(); 
+        } else {
+          return LoginScreen(); 
+        }
+      },
     );
   }
 }
