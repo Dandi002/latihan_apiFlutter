@@ -1,10 +1,12 @@
  // login_screen.dart
  import 'package:dandi_flutter/pages/auth/register_screen.dart';
 import 'package:dandi_flutter/pages/home_screen.dart';
+import 'package:dandi_flutter/pages/menu_screen.dart';
 import 'package:dandi_flutter/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
  class LoginScreen extends StatefulWidget {
+  LoginScreen({super.key});
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -25,10 +27,10 @@ class _LoginScreenState extends State<LoginScreen> {
             TextField(controller: emailController, decoration: InputDecoration(labelText: 'Email')),
             TextField(controller: passwordController, decoration: InputDecoration(labelText: 'Password'), obscureText: true),
             ElevatedButton(
-              onPressed: () async {
-                bool success = await _authService.login(emailController.text, passwordController.text);
+                onPressed: () async {
+                  bool success = await _authService.login(password: passwordController.text, email: emailController.text);
                 if (success) {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => MenuScreen()));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login gagal')));
                 }
